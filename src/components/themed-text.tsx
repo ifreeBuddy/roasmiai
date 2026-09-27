@@ -4,11 +4,25 @@ import { Fonts, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ThemedTextProps = TextProps & {
-  type?: 'default' | 'title' | 'small' | 'smallBold' | 'subtitle' | 'link' | 'linkPrimary' | 'code';
+  type?:
+    | 'default'
+    | 'defaultSemiBold'
+    | 'title'
+    | 'subtitle'
+    | 'sectionHeader'
+    | 'small'
+    | 'smallBold'
+    | 'caption'
+    | 'code';
   themeColor?: ThemeColor;
 };
 
-export function ThemedText({ style, type = 'default', themeColor, ...rest }: ThemedTextProps) {
+export function ThemedText({
+  style,
+  type = 'default',
+  themeColor,
+  ...rest
+}: ThemedTextProps) {
   const theme = useTheme();
 
   return (
@@ -16,12 +30,13 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
       style={[
         { color: theme[themeColor ?? 'text'] },
         type === 'default' && styles.default,
+        type === 'defaultSemiBold' && styles.defaultSemiBold,
         type === 'title' && styles.title,
+        type === 'subtitle' && styles.subtitle,
+        type === 'sectionHeader' && styles.sectionHeader,
         type === 'small' && styles.small,
         type === 'smallBold' && styles.smallBold,
-        type === 'subtitle' && styles.subtitle,
-        type === 'link' && styles.link,
-        type === 'linkPrimary' && styles.linkPrimary,
+        type === 'caption' && styles.caption,
         type === 'code' && styles.code,
         style,
       ]}
@@ -31,43 +46,52 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
 }
 
 const styles = StyleSheet.create({
-  small: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: 500,
-  },
-  smallBold: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: 700,
-  },
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: 500,
-  },
   title: {
-    fontSize: 48,
-    fontWeight: 600,
-    lineHeight: 52,
+    fontSize: 28,
+    fontWeight: '800',
+    lineHeight: 34,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
-    fontWeight: 600,
+    fontSize: 18,
+    fontWeight: '600',
+    lineHeight: 24,
+    letterSpacing: -0.2,
   },
-  link: {
-    lineHeight: 30,
-    fontSize: 14,
+  sectionHeader: {
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
-  linkPrimary: {
-    lineHeight: 30,
-    fontSize: 14,
-    color: '#3c87f7',
+  default: {
+    fontSize: 15,
+    lineHeight: 22,
+    fontWeight: '400',
+  },
+  defaultSemiBold: {
+    fontSize: 15,
+    lineHeight: 22,
+    fontWeight: '600',
+  },
+  small: {
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '400',
+  },
+  smallBold: {
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '700',
+  },
+  caption: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: '400',
   },
   code: {
     fontFamily: Fonts.mono,
-    fontWeight: Platform.select({ android: 700 }) ?? 500,
+    fontWeight: Platform.select({ android: '700' }) ?? '500',
     fontSize: 12,
   },
 });
